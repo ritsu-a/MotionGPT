@@ -1,0 +1,9 @@
+stage 1 vqvae 
+python -m train --cfg configs/config_h3d_stage1.yaml --nodebug
+
+
+stage 2 t5 
+python -m scripts.get_motion_code --cfg configs/config_h3d_stage2.yaml
+
+
+

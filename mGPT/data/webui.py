@@ -67,7 +67,7 @@ class HumanML3DDataModule(BASEDataModule):
             self.Dataset = Text2MotionDataset
 
         # Get additional info of the dataset
-        self.nfeats = 263
+        self.nfeats = 280
         cfg.DATASET.NFEATS = self.nfeats
         
 

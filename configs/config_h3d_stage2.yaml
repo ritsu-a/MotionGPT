@@ -1,7 +1,7 @@
-NAME: Pretrain_HumanML3D # Experiment names
+NAME: Pretrain_G1ML3D # Experiment names
 ACCELERATOR: 'gpu' # Devices optioncal: “cpu”, “gpu”, “tpu”, “ipu”, “hpu”, “mps, “auto”
 NUM_NODES: 1 # Number of GPU nodes for distributed training
-DEVICE: [0] # Index of gpus eg. [0] or [0,1,2,3]
+DEVICE: [0,1,2,3,4,5,6,7] # Index of gpus eg. [0] or [0,1,2,3]
 
 TRAIN:
   #---------------------------------
@@ -10,9 +10,9 @@ TRAIN:
   NUM_WORKERS: 16 # Number of workers
   BATCH_SIZE: 16 # Size of batches
   END_EPOCH: 999999 # End epoch
-  RESUME: '' # Resume training from this path
+  RESUME: 'experiments/mgpt/Pretrain_G1ML3D_1' # Resume training from this path
   PRETRAINED: '' # Preatrained model path
-  PRETRAINED_VAE: checkpoints/MotionGPT-base/motiongpt_s3_h3d.tar # Vae model path
+  PRETRAINED_VAE: experiments/mgpt/VQVAE_G1ML3D_1/checkpoints/epoch=12999-v1.ckpt # Vae model path
 
   OPTIM:
     target: AdamW
@@ -36,7 +36,7 @@ DATASET:
   CODE_PATH: TOKENS
 
 METRIC:
-  TYPE: ['TM2TMetrics', 'PredMetrics']
+  TYPE: ['PredMetrics']
 
 LOSS:
   LAMBDA_FEATURE: 1.0

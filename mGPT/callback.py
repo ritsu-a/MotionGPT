@@ -68,46 +68,46 @@ def getCheckpointCallback(cfg, logger=None, **kwargs):
 
     metrics = cfg.METRIC.TYPE
     metric_monitor_map = {
-        'TemosMetric': {
-            'Metrics/APE_root': {
-                'abbr': 'APEroot',
-                'mode': 'min'
-            },
-        },
-        'TM2TMetrics': {
-            'Metrics/FID': {
-                'abbr': 'FID',
-                'mode': 'min'
-            },
-            'Metrics/R_precision_top_3': {
-                'abbr': 'R3',
-                'mode': 'max'
-            }
-        },
+    #     'TemosMetric': {
+    #         'Metrics/APE_root': {
+    #             'abbr': 'APEroot',
+    #             'mode': 'min'
+    #         },
+    #     },
+    #     'TM2TMetrics': {
+    #         'Metrics/FID': {
+    #             'abbr': 'FID',
+    #             'mode': 'min'
+    #         },
+    #         'Metrics/R_precision_top_3': {
+    #             'abbr': 'R3',
+    #             'mode': 'max'
+    #         }
+    #     },
         'MRMetrics': {
             'Metrics/MPJPE': {
                 'abbr': 'MPJPE',
                 'mode': 'min'
             }
         },
-        'HUMANACTMetrics': {
-            'Metrics/Accuracy': {
-                'abbr': 'Accuracy',
-                'mode': 'max'
-            }
-        },
-        'UESTCMetrics': {
-            'Metrics/Accuracy': {
-                'abbr': 'Accuracy',
-                'mode': 'max'
-            }
-        },
-        'UncondMetrics': {
-            'Metrics/FID': {
-                'abbr': 'FID',
-                'mode': 'min'
-            }
-        }
+    #     'HUMANACTMetrics': {
+    #         'Metrics/Accuracy': {
+    #             'abbr': 'Accuracy',
+    #             'mode': 'max'
+    #         }
+    #     },
+    #     'UESTCMetrics': {
+    #         'Metrics/Accuracy': {
+    #             'abbr': 'Accuracy',
+    #             'mode': 'max'
+    #         }
+    #     },
+    #     'UncondMetrics': {
+    #         'Metrics/FID': {
+    #             'abbr': 'FID',
+    #             'mode': 'min'
+    #         }
+    #     }
     }
 
     checkpointParams.update({

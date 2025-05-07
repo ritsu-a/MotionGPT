@@ -42,7 +42,7 @@ def load_example_input(txt_path, task, model):
     motion_head = []
     motion_heading = []
     motion_tailing = []
-    motion_token = torch.zeros((1, 263))
+    motion_token = torch.zeros((1, 280))
     for i, line in enumerate(Lines):
         count += 1
         if len(line.split('#')) == 1:

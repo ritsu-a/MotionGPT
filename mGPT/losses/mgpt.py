@@ -68,10 +68,10 @@ class GPTLosses(BaseLosses):
                                        rs_set['m_ref'])
             # total += self._update_loss("recons_joints", rs_set['joints_rst'], rs_set['joints_ref'])
             nfeats = rs_set['m_rst'].shape[-1]
-            if nfeats in [263, 135 + 263]:
-                if nfeats == 135 + 263:
+            if nfeats in [280, 135 + 280]:
+                if nfeats == 135 + 280:
                     vel_start = 135 + 4
-                elif nfeats == 263:
+                elif nfeats == 280:
                     vel_start = 4
                 total += self._update_loss(
                     "recons_velocity",

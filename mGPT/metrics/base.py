@@ -14,23 +14,23 @@ class BaseMetrics(nn.Module):
         njoints = datamodule.njoints
 
         data_name = datamodule.name
-        if data_name in ["humanml3d", "kit"]:
-            self.TM2TMetrics = TM2TMetrics(
-                cfg=cfg,
-                dataname=data_name,
-                diversity_times=30 if debug else cfg.METRIC.DIVERSITY_TIMES,
-                dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP,
-            )
-            self.M2TMetrics = M2TMetrics(
-                cfg=cfg,
-                w_vectorizer=datamodule.hparams.w_vectorizer,
-                diversity_times=30 if debug else cfg.METRIC.DIVERSITY_TIMES,
-                dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP)
-            self.MMMetrics = MMMetrics(
-                cfg=cfg,
-                mm_num_times=cfg.METRIC.MM_NUM_TIMES,
-                dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP,
-            )
+        # if data_name in ["humanml3d", "kit"]:
+        #     self.TM2TMetrics = TM2TMetrics(
+        #         cfg=cfg,
+        #         dataname=data_name,
+        #         diversity_times=30 if debug else cfg.METRIC.DIVERSITY_TIMES,
+        #         dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP,
+        #     )
+        #     self.M2TMetrics = M2TMetrics(
+        #         cfg=cfg,
+        #         w_vectorizer=datamodule.hparams.w_vectorizer,
+        #         diversity_times=30 if debug else cfg.METRIC.DIVERSITY_TIMES,
+        #         dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP)
+        #     self.MMMetrics = MMMetrics(
+        #         cfg=cfg,
+        #         mm_num_times=cfg.METRIC.MM_NUM_TIMES,
+        #         dist_sync_on_step=cfg.METRIC.DIST_SYNC_ON_STEP,
+        #     )
 
         self.MRMetrics = MRMetrics(
             njoints=njoints,
