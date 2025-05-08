@@ -1,0 +1,3 @@
+[submodule "external/HRI_retarget"]
+	path = external/HRI_retarget
+	url = https://github.com/ritsu-a/HRI_retarget.git

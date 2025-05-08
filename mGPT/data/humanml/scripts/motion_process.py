@@ -1,5 +1,8 @@
 from os.path import join as pjoin
 
+from external.HRI_retarget.src.model.g1_29 import G1_29_Motion_Model
+from external.HRI_retarget.src.utils.torch_utils.diff_quat import quat_to_matrix
+
 from ..common.skeleton import Skeleton
 import numpy as np
 import os
@@ -412,22 +415,62 @@ def recover_rot(data):
     return cont6d_params
 
 
-def recover_from_ric(data, joints_num):
+# def recover_from_ric(data, joints_num):
+#     r_rot_quat, r_pos = recover_root_rot_pos(data)
+#     positions = data[..., 4:(joints_num - 1) * 3 + 4]
+#     positions = positions.view(positions.shape[:-1] + (-1, 3))
+
+#     '''Add Y-axis rotation to local joints'''
+#     positions = qrot(qinv(r_rot_quat[..., None, :]).expand(positions.shape[:-1] + (4,)), positions)
+
+#     '''Add root XZ to joints'''
+#     positions[..., 0] += r_pos[..., 0:1]
+#     positions[..., 2] += r_pos[..., 2:3]
+
+#     '''Concate root and joints'''
+#     positions = torch.cat([r_pos.unsqueeze(-2), positions], dim=-2)
+
+#     return positions
+
+### g1 280-feature recover from ric 
+def recover_from_ric(data):
+
     r_rot_quat, r_pos = recover_root_rot_pos(data)
-    positions = data[..., 4:(joints_num - 1) * 3 + 4]
-    positions = positions.view(positions.shape[:-1] + (-1, 3))
 
-    '''Add Y-axis rotation to local joints'''
-    positions = qrot(qinv(r_rot_quat[..., None, :]).expand(positions.shape[:-1] + (4,)), positions)
+    device = data.device
 
-    '''Add root XZ to joints'''
-    positions[..., 0] += r_pos[..., 0:1]
-    positions[..., 2] += r_pos[..., 2:3]
+    rot = torch.tensor([
+        [0, 0, 1],
+        [1, 0, 0],
+        [0, 1, 0],
+    ], dtype=torch.float).to(device)
 
-    '''Concate root and joints'''
-    positions = torch.cat([r_pos.unsqueeze(-2), positions], dim=-2)
+
+    joints_num = 29 
+    links_num = 41
+    batch_size = data.shape[0]
+    num_frames = data.shape[1]
+
+    global_positions = r_pos.reshape(-1, 3, 1)
+    global_rotations = quat_to_matrix(r_rot_quat)[..., :3, :2].reshape(-1, 3, 2)
+    data_dict = {
+        "global_rotation": global_rotations,
+        "global_translation": global_positions,
+        "scale": torch.ones(3).to(device),
+    }
+
+
+    dof_angles = data[..., 4 + (links_num - 1) * 3: 4 + (links_num - 1) * 3 + joints_num].reshape(-1, joints_num)
+    model = G1_29_Motion_Model(batch_size * num_frames, device=device)
+    model.set_angles(dof_angles)
+    model.set_global_matrix(data_dict)
+    link_to_root_dict = model.forward_kinematics()
+    link_to_root_pos = link_to_root_dict[:, :, :3, 3] @ rot
+    positions = link_to_root_pos.view(batch_size, num_frames, -1, 3)
+  
 
     return positions
+
 '''
 For Text2Motion Dataset
 '''

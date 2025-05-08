@@ -83,7 +83,7 @@ class HumanML3DDataModule(BASEDataModule):
         mean = torch.tensor(self.hparams.mean).to(features)
         std = torch.tensor(self.hparams.std).to(features)
         features = features * std + mean
-        return recover_from_ric(features, self.njoints)
+        return recover_from_ric(features)
 
     def joints2feats(self, features):
         example_data = np.load(os.path.join(self.hparams.data_root, 'joints', '000021.npy'))

@@ -1,9 +1,21 @@
 stage 1 vqvae 
 python -m train --cfg configs/config_h3d_stage1.yaml --nodebug
 
+after stage 1 vqvae:
+python -m scripts.get_motion_code --cfg configs/config_h3d_stage2.yaml
+
 
 stage 2 t5 
-python -m scripts.get_motion_code --cfg configs/config_h3d_stage2.yaml
+python -m train --cfg configs/config_h3d_stage2.yaml --nodebug
+
+
+stage 3 instruction tuning:
+python -m train --cfg configs/config_h3d_stage3.yaml --nodebug
+
+
+pkill -9 -f python
+
+
 
 
 

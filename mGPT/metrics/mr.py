@@ -91,7 +91,11 @@ class MRMetrics(Metric):
             align_inds = None
 
         for i in range(len(lengths)):
+            if torch.isnan(ref[i]).any() or torch.isnan(rst[i]).any():
+                print("NaN in joints_rst or joints_ref", torch.isnan(ref[i]).sum())
+                continue
             self.MPJPE += torch.sum(
                 calc_mpjpe(rst[i], ref[i], align_inds=align_inds))
+         
             self.PAMPJPE += torch.sum(calc_pampjpe(rst[i], ref[i]))
             self.ACCEL += torch.sum(calc_accel(rst[i], ref[i]))

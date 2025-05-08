@@ -10,8 +10,8 @@ TRAIN:
   NUM_WORKERS: 16 # Number of workers
   BATCH_SIZE: 256 # Size of batches
   END_EPOCH: 999999 # End epoch
-  RESUME: '' # Resume training from this path
-  PRETRAINED: 'experiments/mgpt/VQVAE_G1ML3D_1/checkpoints/epoch=12999-v1.ckpt' # Preatrained model path
+  RESUME: 'experiments/mgpt/VQVAE_G1ML3D_1' # Resume training from this path
+  PRETRAINED: '' # Preatrained model path
 
   OPTIM:
     target: AdamW
